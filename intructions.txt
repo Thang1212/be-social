@@ -1,0 +1,10 @@
+1. Create project using available template
+`bunx create-expo -t https://github.com/EvanBacon/expo-router-forms-components .` 
+
+2.
+`export BUN_IOS_SKIP_XCODE_CHECK=1`
+`bun start`
+
+3. Shortcut in emulator
+- Press 'R': to reload
+- Press 'Ctrl + shift + a': to change dark/light mode 
