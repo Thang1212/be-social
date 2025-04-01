@@ -1,10 +1,25 @@
 import { Text } from "@/components/ui/Form";
-import { Button, Image, Pressable, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Button, Image, Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import AppButton from "@/components/ui/AppButton";
+import useAuth from "@/hooks/useAuth";
 
 export default function Page() {
     const router = useRouter();
+
+    const { isLoggedIn, isLoading } = useAuth();
+
+    if (isLoading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator />;
+            </View>
+        );
+    }
+
+    if (isLoggedIn) {
+        router.push("/dashboard");
+    }
 
     return (
         <View style={styles.container}>
@@ -16,13 +31,6 @@ export default function Page() {
 
             <AppButton onPress={() => router.push("/auth/sign-in")}>Sign in</AppButton>
             <AppButton style={styles.signUpButton} onPress={() => router.push("/auth/sign-up")}>Sign up</AppButton>
-            {/* <Pressable style={styles.signInButton} onPress={() => router.push("/auth/sign-in")} >
-                <Text style={styles.buttonText}>Sign in</Text>
-            </Pressable>
-
-            <Pressable style={styles.signUpButton} onPress={() => router.push("/auth/sign-up")} >
-                <Text style={styles.buttonText}>Sign up</Text>
-            </Pressable> */}
         </View>
     )
 }

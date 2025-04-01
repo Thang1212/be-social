@@ -37,3 +37,6 @@
 
 11.
 `bun add @types/jsonwebtoken`
+
+12.
+`bun add expo-secure-store`

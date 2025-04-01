@@ -17,6 +17,9 @@ export default function Layout() {
                 options={{
                     presentation: "card",
                     title: "Sign in",
+                    headerTitleStyle: {
+                        color: "#000000",
+                    }
                 }}
             />
 
@@ -25,6 +28,9 @@ export default function Layout() {
                 options={{
                     presentation: "card",
                     title: "Sign up",
+                    headerTitleStyle: {
+                        color: "#000000",
+                    }
                 }}
             />
 

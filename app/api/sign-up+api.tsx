@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { db } from '@/db';
 import { eq } from 'drizzle-orm';
 import { users } from '@/db/schema';
+import { hashPassword, generateJWT } from '@/utils/auth';
 
 export async function POST(request: Request) {
     const { email, password } = await request.json();
@@ -30,18 +31,20 @@ export async function POST(request: Request) {
         return Response.json({ error: 'User already exists!!' }, { status: 404 })
     }
 
+    const hashedPassword = await hashPassword(password);
+
     // 4. create user in db
     const [newUser] = await db
         .insert(users)
         .values({
             email, 
             // TODO: salt + hash password
-            password,
+            password: hashedPassword,
         })
         .returning();
 
     // 5. create jwt token
-    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET!);
+    const token = await generateJWT(newUser.id);
 
     // 6. return token
     return Response.json({ token });
