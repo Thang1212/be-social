@@ -8,3 +8,32 @@
 3. Shortcut in emulator
 - Press 'R': to reload
 - Press 'Ctrl + shift + a': to change dark/light mode 
+
+4. 
+      [
+      "expo-router",
+      {
+        "origin": "https://api.routes.expo.app"
+      }
+      ],
+
+
+5. 
+`bun add jsonwebtoken`
+
+6. docker-compose.yml
+`docker compose up`
+
+7. 
+`bun add drizzle-orm postgres`
+
+8. restart typescript server
+
+9.
+`bun add drizzle-kit`
+
+10.
+`bun add env`
+
+11.
+`bun add @types/jsonwebtoken`

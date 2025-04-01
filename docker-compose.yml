@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  the-be-social-db:
+    image: postgres
+    restart: always
+    container_name: the-be-social-db
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+
+  # get-social-bucket:
+  #   build: .
+  #   restart: always
+  #   ports:
+  #     - 9000:9000
+  #   command: "node s3.mjs"
+  #   environment:
+  #     AWS_ACCESS_KEY_ID: S3RVER
+  #     AWS_SECRET_ACCESS_KEY: S3RVER
+  #   volumes:
+  #     - ".:/home/app"
+
+volumes:
+  postgres:
