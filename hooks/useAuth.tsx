@@ -8,6 +8,7 @@ export default function useAuth() {
     useEffect(() => {
         const fetchToken = async () => {
             const token = await secureGet("token");
+            console.log("use auth token: " + token);
             setToken(token || "");
             setIsLoading(false);
         };

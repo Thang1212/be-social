@@ -27,7 +27,7 @@ export default function Page() {
                 console.log("type of data token: " + JSON.stringify(data.error))
                 setEmail("");
                 setPassword("");
-                router.push("/dashboard")
+                router.push("/dashboard/(dashboard)")
             } else {
                 alert("Something went wrong");
             }

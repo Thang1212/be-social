@@ -3,11 +3,18 @@ import { ActivityIndicator, Button, Image, Pressable, StyleSheet, View } from "r
 import { useRouter } from "expo-router";
 import AppButton from "@/components/ui/AppButton";
 import useAuth from "@/hooks/useAuth";
+import { useEffect } from "react";
 
 export default function Page() {
     const router = useRouter();
 
     const { isLoggedIn, isLoading } = useAuth();
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            router.push("/dashboard/(dashboard)");
+        }
+    }, [isLoading])
 
     if (isLoading) {
         return (
@@ -15,10 +22,6 @@ export default function Page() {
                 <ActivityIndicator />;
             </View>
         );
-    }
-
-    if (isLoggedIn) {
-        router.push("/dashboard");
     }
 
     return (
