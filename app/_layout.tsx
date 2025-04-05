@@ -1,13 +1,16 @@
-import ThemeProvider from "@/components/ui/ThemeProvider";
+import ThemeProvider from '@/components/ui/ThemeProvider';
 
-import { Slot } from "expo-router";
+import { Slot } from 'expo-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import Tabs from "@/components/ui/Tabs";
+const queryClient = new QueryClient();
 
 export default function Layout() {
-    return (
-        <ThemeProvider>
-            <Slot />
-        </ThemeProvider>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <Slot />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
