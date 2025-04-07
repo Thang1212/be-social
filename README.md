@@ -25,4 +25,4 @@ This project leverages modern web development tools and frameworks to deliver a 
 - **Feed**: View a timeline of posts from people you follow.
 
 ## Demo 
-![Be social app demo](assets/be-social-app-demo.mov)
+![Be social app demo](https://drive.google.com/file/d/1IQHwwqr-JLLG20wLwCPBanpXQJxEYN-e/view?usp=sharing)
