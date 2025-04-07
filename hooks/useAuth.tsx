@@ -1,19 +1,35 @@
-import { useEffect, useState } from "react";
 import { secureGet } from "@/utils/storage";
+import { createContext, useContext, useEffect, useState } from "react";
 
-export default function useAuth() {
-    const [token, setToken] = useState("");
-    const [isLoading, setIsLoading] = useState(true);
+const AuthContext = createContext<{
+  token: string;
+  isLoading: boolean;
+  setToken: (token: string) => void;
+  setIsLoading: (isLoading: boolean) => void;
+}>({ token: "", isLoading: true, setToken: () => {}, setIsLoading: () => {} });
 
-    useEffect(() => {
-        const fetchToken = async () => {
-            const token = await secureGet("token");
-            setToken(token || "");
-            setIsLoading(false);
-        };
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [token, setToken] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
-        fetchToken();
-    }, [])
+  return (
+    <AuthContext.Provider value={{ token, isLoading, setToken, setIsLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
 
-    return { token, isLoggedIn: !!token, isLoading };
+export function useAuth() {
+  const { token, isLoading, setToken, setIsLoading } = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await secureGet("token");
+      setToken(token || "");
+      setIsLoading(false);
+    };
+    fetchToken();
+  }, []);
+
+  return { token, isLoggedIn: !!token, isLoading };
 }

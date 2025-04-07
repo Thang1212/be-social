@@ -1,16 +1,16 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 export async function hashPassword(password: string) {
-    const encoder = new TextEncoder();
-    const passwordBuffer = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", passwordBuffer);
-    const hashedPassword = Array.from(new Uint8Array(hashBuffer))
-        .map((b) => b.toString(16).padStart(2, "0"))
-        .join("");
+  const encoder = new TextEncoder();
+  const passwordBuffer = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", passwordBuffer);
+  const hashedPassword = Array.from(new Uint8Array(hashBuffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 
-    return hashedPassword;
+  return hashedPassword;
 }
 
-export async function generateJWT(userId: string) {
-    return jwt.sign({ userId }, process.env.JWT_SECRET!);
+export async function generateJwt(userId: string) {
+  return jwt.sign({ userId }, process.env.JWT_SECRET!);
 }

@@ -1,41 +1,42 @@
-import Stack from '@/components/ui/Stack';
-import Tabs from '@/components/ui/Tabs';
-import { View } from 'react-native';
+import Tabs from "@/components/ui/Tabs";
 
 export default function Layout() {
   return (
     <Tabs>
       <Tabs.Screen
+        options={{
+          href: "/dashboard",
+        }}
         name="(dashboard)"
         title="Feed"
         systemImage="house.fill"
-        options={{
-          href: '/dashboard',
-        }}
       />
+
       <Tabs.Screen
+        options={{
+          href: "/dashboard/post",
+        }}
         name="(post)"
         title="Post"
         systemImage="plus"
-        options={{
-          href: '/dashboard/post',
-        }}
       />
+
       <Tabs.Screen
-        name="(notification)"
+        options={{
+          href: "/dashboard/notifications",
+        }}
+        name="(notifications)"
         title="Notifications"
         systemImage="bell.fill"
-        options={{
-          href: '/dashboard/notifications',
-        }}
       />
+
       <Tabs.Screen
-        name="(account)"
-        title="Account"
-        systemImage="person.fill"
         options={{
-          href: '/dashboard/account',
+          href: "/dashboard/account",
         }}
+        name="(account)"
+        title="Settings"
+        systemImage="gearshape.fill"
       />
     </Tabs>
   );

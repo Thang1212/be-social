@@ -1,5 +1,4 @@
-import Stack from '@/components/ui/Stack';
-import { View } from 'react-native';
+import Stack from "@/components/ui/Stack";
 
 export default function Layout() {
   return (
@@ -8,29 +7,21 @@ export default function Layout() {
         name="index"
         options={{
           headerShown: false,
-          // headerTitle: "Sign in",
+          title: "Get Social",
         }}
       />
-
       <Stack.Screen
         name="sign-in"
         options={{
-          presentation: 'card',
-          title: 'Sign in',
-          headerTitleStyle: {
-            color: '#000000',
-          },
+          presentation: "card",
+          title: "Sign In",
         }}
       />
-
       <Stack.Screen
         name="sign-up"
         options={{
-          presentation: 'card',
-          title: 'Sign up',
-          headerTitleStyle: {
-            color: '#000000',
-          },
+          presentation: "card",
+          title: "Sign Up",
         }}
       />
     </Stack>

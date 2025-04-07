@@ -1,0 +1,6 @@
+- [ ] upload profile picture on settings
+- [ ] upload picture in post
+- [ ] heart a post
+- [ ] unheart a post
+- [ ] skeleton loader on feed screen
+- [ ] delete a post

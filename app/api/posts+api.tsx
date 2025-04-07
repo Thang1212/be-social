@@ -1,44 +1,25 @@
-import jwt from 'jsonwebtoken';
-import { db } from '@/db';
-import { desc, eq } from 'drizzle-orm';
-import { Post, posts, users } from '@/db/schema';
-import { hashPassword, generateJWT } from '@/utils/auth';
+import jwt from "jsonwebtoken";
+import { db } from "@/db";
+import { desc, eq } from "drizzle-orm";
+import {
+  followers,
+  notifications,
+  Post,
+  posts,
+  profiles,
+  User,
+  users,
+} from "@/db/schema";
+import { withAuth } from "@/utils/withAuth";
 
-async function getUser(request: Request) {
-  const token = request.headers.get('authorization')?.split(' ')[1];
-
-  if (!token) {
-    return undefined;
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
-    };
-
-    const user = await db.query.users.findFirst({
-      where: eq(users.id, decoded.userId),
-    });
-
-    return user;
-  } catch (err) {
-    return undefined;
-  }
-}
-
-export type getPostResponse = (Post & {
+export type GetPostResponse = (Post & {
   profile: {
-    displayName: string,
-  }
+    displayName: string;
+    imageId: string;
+  };
 })[];
 
-export async function GET(request: Request) {
-  const user = await getUser(request);
-
-  if (!user) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+export const GET = withAuth(async (request: Request, user: User) => {
   const allPosts = await db.query.posts.findMany({
     orderBy: [desc(posts.createdAt)],
     limit: 20,
@@ -46,28 +27,31 @@ export async function GET(request: Request) {
       profile: {
         columns: {
           displayName: true,
-        }
-      } 
-    }
+          imageId: true,
+        },
+      },
+    },
   });
 
   return Response.json(allPosts);
-}
+});
 
-export async function POST(request: Request) {
+export const POST = withAuth(async (request: Request, user: User) => {
   const { text } = await request.json();
 
   if (!text) {
     return Response.json(
-      { error: 'Your post is required some text!!' },
+      { error: "Your post requires some text" },
       { status: 400 }
     );
   }
 
-  const user = await getUser(request);
+  const profile = await db.query.profiles.findFirst({
+    where: eq(profiles.userId, user.id),
+  });
 
-  if (!user) {
-    return Response.json({ error: 'Unauthorized!!' }, { status: 401 });
+  if (!profile) {
+    return Response.json({ error: "Profile not found" }, { status: 400 });
   }
 
   const [newPost] = await db
@@ -78,5 +62,20 @@ export async function POST(request: Request) {
     })
     .returning();
 
+  const userFollowers = await db.query.followers.findMany({
+    where: eq(followers.followingId, user.id),
+  });
+
+  await Promise.all(
+    userFollowers.map((follower) =>
+      db.insert(notifications).values({
+        userId: follower.userId,
+        fromUserId: user.id,
+        type: "post",
+        content: `${profile.displayName} posted: ${text.substring(0, 100)}...`,
+      })
+    )
+  );
+
   return Response.json(newPost);
-}
+});

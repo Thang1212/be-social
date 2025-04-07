@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "be-social",
-    "slug": "be-social",
+    "name": "get-social",
+    "slug": "get-social",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -31,7 +31,7 @@
       [
         "expo-router",
         {
-          "origin": "https://api.routes.expo.app"
+          "origin": "https://get-social.expo.app"
         }
       ],
       [
@@ -58,8 +58,12 @@
     },
     "extra": {
       "eas": {
-        "projectId": "8369b038-5983-47e3-88e8-1dcf3eb1566c"
+        "projectId": "d849c2c8-d315-4c81-8e26-a2eb1c39a94e"
+      },
+      "router": {
+        "origin": "https://api.routes.expo.app"
       }
-    }
+    },
+    "owner": "webdevcody"
   }
 }

@@ -1,37 +1,36 @@
-import { signIn } from '@/api/users';
-import AppButton from '@/components/ui/AppButton';
-import { Text } from '@/components/ui/Form';
-import { secureSave } from '@/utils/storage';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { signIn } from "@/api/users";
+import { AppButton } from "@/components/ui/AppButton";
+import { Text } from "@/components/ui/Form";
+import { secureSave } from "@/utils/storage";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { StyleSheet, TextInput, View } from "react-native";
 
 export default function Page() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  function handleSignIn() {
+  function handleSignUp() {
     if (!email || !password) {
-      alert('Please fill in all fields!!');
+      alert("Please fill in all fields");
       return;
     }
 
     signIn(email, password)
-    .then(async ({token}) => {
-      await secureSave('token', token);
-      setEmail("");
-      setPassword("");
-      router.push("/dashboard/(dashboard)");
-    }).catch((error) => {
-      alert(error.message);
-    })
+      .then(async ({ token }) => {
+        await secureSave("token", token);
+        setPassword("");
+        setEmail("");
+        router.push("/dashboard/(dashboard)");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   }
 
   return (
     <View style={styles.container}>
-      {/* <Button title="Sign in" /> */}
       <View style={styles.form}>
         <View style={styles.field}>
           <Text style={styles.label}>Email</Text>
@@ -46,15 +45,15 @@ export default function Page() {
         <View style={styles.field}>
           <Text style={styles.label}>Password</Text>
           <TextInput
-            autoCapitalize="none"
             value={password}
             style={styles.input}
+            autoCapitalize="none"
             onChangeText={setPassword}
             secureTextEntry
           />
         </View>
 
-        <AppButton onPress={handleSignIn}>Sign in</AppButton>
+        <AppButton onPress={handleSignUp}>Sign In</AppButton>
       </View>
     </View>
   );
@@ -62,42 +61,34 @@ export default function Page() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#15152F',
+    backgroundColor: "#15152F",
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     gap: 12,
   },
-
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-
   field: {
-    width: '90%',
     gap: 12,
   },
-
+  label: {
+    fontSize: 16,
+    textAlign: "left",
+  },
   form: {
     gap: 24,
-    width: '80%',
+    width: "80%",
   },
-
-  label: {
-    color: 'white',
-    fontSize: 16,
-    textAlign: 'left',
-    // width: "80%",
-  },
-
   input: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     padding: 12,
     borderRadius: 8,
     fontSize: 16,
-    color: '#000000',
+    color: "#000000",
     borderWidth: 1,
-    borderColor: '#CCCCCC',
+    borderColor: "#CCCCCC",
   },
 });

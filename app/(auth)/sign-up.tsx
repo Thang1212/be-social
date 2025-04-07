@@ -1,48 +1,47 @@
-import { signUp } from '@/api/users';
-import AppButton from '@/components/ui/AppButton';
-import { Text } from '@/components/ui/Form';
-import { secureSave } from '@/utils/storage';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { signUp } from "@/api/users";
+import { AppButton } from "@/components/ui/AppButton";
+import { Text } from "@/components/ui/Form";
+import { secureSave } from "@/utils/storage";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { StyleSheet, TextInput, View } from "react-native";
 
 export default function Page() {
   const router = useRouter();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleSignUp() {
     if (!email || !password) {
-      alert('Please fill in all fields!!');
+      alert("Please fill in all fields");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      alert('Please fill in valid email!!');
+      alert("Please enter a valid email address");
       return;
     }
 
     if (password.length < 8) {
-      alert('Password must be at least 8 characters long!!');
+      alert("Password must be at least 8 characters long");
       return;
     }
 
     signUp(email, password)
-    .then(async ({token}) => {
-      await secureSave("token", token);
-      router.push("/dashboard/(dashboard)");
-      setEmail("");
-      setPassword("");
-    }).catch((error) => {
-      alert(error.message);
-    }) 
+      .then(async ({ token }) => {
+        await secureSave("token", token);
+        router.push("/dashboard/(dashboard)");
+        setPassword("");
+        setEmail("");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   }
 
   return (
     <View style={styles.container}>
-      {/* <Button title="Sign up" /> */}
       <View style={styles.form}>
         <View style={styles.field}>
           <Text style={styles.label}>Email</Text>
@@ -57,15 +56,15 @@ export default function Page() {
         <View style={styles.field}>
           <Text style={styles.label}>Password</Text>
           <TextInput
-            autoCapitalize="none"
             value={password}
             style={styles.input}
+            autoCapitalize="none"
             onChangeText={setPassword}
             secureTextEntry
           />
         </View>
 
-        <AppButton onPress={handleSignUp}>Sign up</AppButton>
+        <AppButton onPress={handleSignUp}>Sign Up</AppButton>
       </View>
     </View>
   );
@@ -73,42 +72,34 @@ export default function Page() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#15152F',
+    backgroundColor: "#15152F",
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     gap: 12,
   },
-
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-
   field: {
-    width: '90%',
     gap: 12,
   },
-
+  label: {
+    fontSize: 16,
+    textAlign: "left",
+  },
   form: {
     gap: 24,
-    width: '80%',
+    width: "80%",
   },
-
-  label: {
-    color: 'white',
-    fontSize: 16,
-    textAlign: 'left',
-    // width: "80%",
-  },
-
   input: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     padding: 12,
     borderRadius: 8,
     fontSize: 16,
-    color: '#000000',
+    color: "#000000",
     borderWidth: 1,
-    borderColor: '#CCCCCC',
+    borderColor: "#CCCCCC",
   },
 });
