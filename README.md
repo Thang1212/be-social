@@ -14,7 +14,7 @@ It’s perfect for anyone looking to experiment with a simple social platform or
 This project leverages modern web development tools and frameworks to deliver a smooth experience:
 - **React Native**: A framework for building native mobile apps using React.
 - **TypeScript**: Adds static typing to JavaScript for better code reliability.
-- **Prisma**: An ORM for database management and queries.
+- **Drizzle**: An ORM for database management and queries.
 - **PostgreSQL**: A powerful open-source relational database.
 - **NextAuth.js**: Authentication library for secure user login and session management.
 
